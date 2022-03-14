@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Data
 public class PostModel {
 
-    @NotNull
+    @NotNull(message = "PostId must not be null")
     @Size(min = 2, max = 16, message = "PostId must be greater than 2 and less than 16")
     private String postId;
 
