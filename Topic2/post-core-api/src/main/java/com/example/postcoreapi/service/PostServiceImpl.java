@@ -14,15 +14,15 @@ public class PostServiceImpl implements PostService {
     public static final HashMap<String, PostModel> postsMap = new HashMap<>();
 
     static {
-        PostModel post1 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "letter or postcard", "processing");
-        PostModel post2 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "parcel", "shipped");
-        PostModel post3 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "large envelope", "in transit");
-        PostModel post4 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "packets", "delivered");
+        PostModel post1 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "letter or postcard", "processing", "email2@gmail.com");
+        PostModel post2 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "parcel", "shipped", "email1@gmail.com");
+        PostModel post3 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "large envelope", "in transit", "email2@gmail.com");
+        PostModel post4 = new PostModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), "packets", "delivered", "email4@gmail.com");
 
-        postsMap.put(UUID.randomUUID().toString(), post1);
-        postsMap.put(UUID.randomUUID().toString(), post2);
-        postsMap.put(UUID.randomUUID().toString(), post3);
-        postsMap.put(UUID.randomUUID().toString(), post4);
+        postsMap.put(post1.getPostId(), post1);
+        postsMap.put(post2.getPostId(), post2);
+        postsMap.put(post3.getPostId(), post3);
+        postsMap.put(post4.getPostId(), post4);
 
     }
 

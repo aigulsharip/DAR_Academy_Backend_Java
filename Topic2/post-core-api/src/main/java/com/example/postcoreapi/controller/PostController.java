@@ -3,7 +3,6 @@ package com.example.postcoreapi.controller;
 import com.example.postcoreapi.model.PostModel;
 import com.example.postcoreapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +17,11 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @GetMapping
-    public void initialChecking () {
-        System.out.println("post-core-api is working");
+    @GetMapping("/check")
+    public ResponseEntity<String> initialChecking() {
+        return new ResponseEntity<String>("post-core-api is working", HttpStatus.OK);
+
+
     }
 
     @PostMapping()
@@ -36,7 +37,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostModel getPostStatusById (@PathVariable String postId) {
+    public PostModel getPostStatusById(@PathVariable String postId) {
         return postService.getPostById(postId);
     }
 
