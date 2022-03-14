@@ -26,7 +26,6 @@ public class PostServiceImpl implements PostService {
 
     }
 
-
     @Override
     public void createPost(PostModel postModel) {
         postModel.setPostId(UUID.randomUUID().toString());
@@ -48,7 +47,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePostById(String postId, PostModel postModel) {
-        //postModel.setPostId(UUID.randomUUID().toString());
         postsMap.put(postId, postModel);
     }
 
@@ -56,7 +54,4 @@ public class PostServiceImpl implements PostService {
     public void deletePostById(String postId) {
         postsMap.remove(postId);
     }
-
-
-
 }

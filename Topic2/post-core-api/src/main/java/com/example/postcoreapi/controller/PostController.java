@@ -20,8 +20,6 @@ public class PostController {
     @GetMapping("/check")
     public ResponseEntity<String> initialChecking() {
         return new ResponseEntity<String>("post-core-api is working", HttpStatus.OK);
-
-
     }
 
     @PostMapping()
@@ -52,6 +50,5 @@ public class PostController {
         postService.deletePostById(postId);
         return new ResponseEntity<String>("Post succesfully deleted", HttpStatus.OK);
     }
-
 
 }
