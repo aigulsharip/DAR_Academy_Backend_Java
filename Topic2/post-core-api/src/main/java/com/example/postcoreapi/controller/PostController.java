@@ -35,7 +35,7 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @GetMapping("{postId}")
+    @GetMapping("/{postId}")
     public PostModel getPostStatusById (@PathVariable String postId) {
         return postService.getPostById(postId);
     }
@@ -46,7 +46,7 @@ public class PostController {
         return new ResponseEntity<String>("Post successfully updated", HttpStatus.OK);
     }
 
-    @DeleteMapping("{postId}")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String postId) {
         postService.deletePostById(postId);
         return new ResponseEntity<String>("Post succesfully deleted", HttpStatus.OK);
