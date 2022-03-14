@@ -53,13 +53,5 @@ public class PostController {
         return new ResponseEntity<String>("Post succesfully deleted", HttpStatus.OK);
     }
 
-    /*
-      Проверка работоспособности проекта (вывод строки "post-core-api is working") Метод GET /post/check
-        Отправить посылку Метод POST /post
-        Получить список всех посылок Метод GET /post/all
-        Просмотреть статус посылки по ID Метод GET /post/{postId}
-        Изменить данные о посылке по ID Метод PUT /post/{postId}
-        Удалить данные о посылке по ID Метод DELETE /post/{userId}
-     */
 
 }
