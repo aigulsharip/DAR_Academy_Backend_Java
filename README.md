@@ -1,4 +1,4 @@
-# DAR_Academy_Backend_Java
+# DAR Academy Backend Java
 
 1) I created and configured post-discovery-server project for Eureka Discovery Service at the port 8010
 
