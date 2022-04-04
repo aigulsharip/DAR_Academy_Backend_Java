@@ -39,7 +39,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostModel getPostStatusById(@PathVariable String postId) {
+    public PostModel getPostById(@PathVariable String postId) {
         return postService.getPostById(postId);
     }
 
