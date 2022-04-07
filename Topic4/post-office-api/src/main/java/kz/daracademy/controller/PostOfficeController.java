@@ -75,6 +75,42 @@ public class PostOfficeController {
 
     }
 
+    @GetMapping("/post/postDetails/{postId}")
+    public PostResponse getPostDetails(@PathVariable String postId) throws JsonProcessingException {
+
+        PostModel post = postFeign.getPostById(postId);
+        String clientId = post.getClientId();
+
+        String clientJson = clientFeign.getClientById(clientId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ClientResponse client = objectMapper.readValue(clientJson, ClientResponse.class);
+
+        /*
+        String recipientId = post.getClientId();
+
+        String recipientJson = clientFeign.getClientById(recipientId);
+        ClientResponse recipient = objectMapper.readValue(recipientJson, ClientResponse.class);
+
+         */
+
+
+
+        PostResponse postResponse = postFeign.getPostByIdPostResponse(postId);
+        //postResponse.setClient(client);
+        //postResponse.setReceiver(recipient);
+
+        return postResponse;
+
+
+
+
+
+
+    }
+
+
+
 
 
 

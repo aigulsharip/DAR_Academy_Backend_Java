@@ -18,8 +18,16 @@ public interface PostFeign {
     @GetMapping("/post/all")
     List<PostModel> getAllPosts();
 
+    @GetMapping("/post/all")
+    List<PostResponse> getAllPostsResponse();
+
+
     @GetMapping("/post/{postId}")
     PostModel getPostById(@PathVariable String postId);
+
+    @GetMapping("/post/{postId}")
+    PostResponse getPostByIdPostResponse(@PathVariable String postId);
+
 
 
 
