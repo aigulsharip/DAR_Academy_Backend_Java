@@ -5,13 +5,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kz.daracademy.dto.PostDTO;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.feign.PostFeign;
 import kz.daracademy.model.ClientResponse;
 import kz.daracademy.model.PostModel;
 import kz.daracademy.model.PostResponse;
+import kz.daracademy.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,9 @@ public class PostOfficeController {
 
     @Autowired
     ClientFeign clientFeign;
+
+    @Autowired
+    PostService postService;
 
 
     @GetMapping("/check")
@@ -55,7 +62,6 @@ public class PostOfficeController {
 
     @GetMapping("/client/all")
     public List<ClientResponse> getAllClients() throws JsonProcessingException {
-        //return clientFeign.getAllClients();
         String jsonClients= clientFeign.getAllClients();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -75,7 +81,15 @@ public class PostOfficeController {
 
     }
 
-    @GetMapping("/post/postDetails/{postId}")
+    @GetMapping(value = "/post/details")
+    public ResponseEntity<List<PostDTO>> getAllItems(){
+        return new ResponseEntity<>(postService.getAllPostsListDTO(), HttpStatus.OK);
+    }
+
+
+
+
+    @GetMapping("/post/DetailsOM")
     public PostResponse getPostDetails(@PathVariable String postId) throws JsonProcessingException {
 
         PostModel post = postFeign.getPostById(postId);
@@ -108,6 +122,36 @@ public class PostOfficeController {
 
 
     }
+
+
+
+    /*
+    @GetMapping("/post/postDetails/{postId}")
+    public PostResponse getPostDetails(@PathVariable String postId) throws JsonProcessingException {
+
+        PostModel post = postFeign.getPostById(postId);
+        String clientId = post.getClientId();
+
+        String clientJson = clientFeign.getClientById(clientId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ClientResponse client = objectMapper.readValue(clientJson, ClientResponse.class);
+
+
+        String recipientId = post.getClientId();
+
+        String recipientJson = clientFeign.getClientById(recipientId);
+        ClientResponse recipient = objectMapper.readValue(recipientJson, ClientResponse.class);
+
+        //   PostResponse postResponse = postFeign.getPostByIdPostResponse(postId);
+        //postResponse.setClient(client);
+        //postResponse.setReceiver(recipient);
+
+        return postResponse;
+
+    }
+
+    */
 
 
 

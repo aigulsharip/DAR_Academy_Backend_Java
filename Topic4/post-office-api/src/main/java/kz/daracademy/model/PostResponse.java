@@ -14,4 +14,6 @@ public class PostResponse {
     private ClientResponse receiver;
     private String postItem;
     private String status;
+
+
 }
