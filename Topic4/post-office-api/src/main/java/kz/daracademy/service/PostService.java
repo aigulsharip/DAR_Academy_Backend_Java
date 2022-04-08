@@ -1,13 +1,11 @@
 package kz.daracademy.service;
 
-import kz.daracademy.dto.ClientDTO;
 import kz.daracademy.dto.PostDTO;
+import kz.daracademy.model.PostResponse;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.feign.PostFeign;
 import kz.daracademy.mapper.ClientMapper;
 import kz.daracademy.mapper.PostMapper;
-import kz.daracademy.mapper.PostMapperOld;
-import kz.daracademy.model.ClientResponse;
 import kz.daracademy.model.PostModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

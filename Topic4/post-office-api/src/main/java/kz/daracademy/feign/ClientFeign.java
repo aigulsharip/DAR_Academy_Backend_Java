@@ -1,8 +1,7 @@
 package kz.daracademy.feign;
 
-import kz.daracademy.dto.ClientDTO;
+import kz.daracademy.model.ClientModel;
 import kz.daracademy.model.ClientResponse;
-import kz.daracademy.model.PostResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,17 +15,24 @@ public interface ClientFeign {
     String checkClientApi();
 
     @GetMapping("/client/all")
-    //List<ClientResponse> getAllClients();
-    String getAllClients();
+    List<ClientResponse> getAllClients();
+
+    @GetMapping("/client/{clientId}")
+    ClientResponse getClientById(@PathVariable String clientId);
+
+
+
+
+    @GetMapping("/client/all")
+    String getAllClientsString();
 
 
     @GetMapping("/client/{clientId}")
-    String getClientById(@PathVariable String clientId);
+    String getClientByIdString(@PathVariable String clientId);
 
 
 
-    @GetMapping("/client/{clientId}")
-    ClientResponse getClientByIdClient(@PathVariable String clientId);
+
 
 
 
