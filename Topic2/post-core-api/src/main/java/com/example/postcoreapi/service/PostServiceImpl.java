@@ -30,7 +30,7 @@ public class PostServiceImpl implements PostService {
     public void createPost(PostModel postModel) {
         postModel.setPostId(UUID.randomUUID().toString());
         postModel.setClientId(UUID.randomUUID().toString());
-        postModel.setPostRecipientId(UUID.randomUUID().toString());
+        postModel.setReceiverId(UUID.randomUUID().toString());
         postsMap.put(postModel.getPostId(), postModel);
 
     }

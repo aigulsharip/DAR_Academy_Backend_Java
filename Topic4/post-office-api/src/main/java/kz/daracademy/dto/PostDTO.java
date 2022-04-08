@@ -14,6 +14,9 @@ public class PostDTO {
     private String status;
     private String clientId;
     private ClientResponse client;
+    //private String receiverId;
+    //private ClientDTO receiver;
+
 
 
     //private ClientDTO clientDTO = postService.getClientById(clientId);

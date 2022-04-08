@@ -21,7 +21,7 @@ public class PostModel {
     private String clientId;
 
     @NotNull
-    private String postRecipientId;
+    private String receiverId;
 
     private String postItem;
 

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.daracademy.dto.PostDTO;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.feign.PostFeign;
+import kz.daracademy.model.ClientModel;
 import kz.daracademy.model.ClientResponse;
 import kz.daracademy.model.PostModel;
 import kz.daracademy.model.PostResponse;
@@ -60,6 +61,7 @@ public class PostOfficeController {
         return postFeign.getPostById(postId);
     }
 
+
     @GetMapping("/client/all")
     public List<ClientResponse> getAllClients() throws JsonProcessingException {
         String jsonClients= clientFeign.getAllClients();
@@ -69,6 +71,8 @@ public class PostOfficeController {
         return clients;
 
     }
+
+
 
 
     @GetMapping("/client/{clientId}")
@@ -87,41 +91,19 @@ public class PostOfficeController {
     }
 
 
-
-
-    @GetMapping("/post/DetailsOM")
-    public PostResponse getPostDetails(@PathVariable String postId) throws JsonProcessingException {
-
+    @GetMapping(value = "/post/details/{postId}")
+    public PostResponse getPostDetailsById(@PathVariable String postId){
         PostModel post = postFeign.getPostById(postId);
-        String clientId = post.getClientId();
+        ClientResponse client = clientFeign.getClientByIdClient(post.getClientId());
+        ClientResponse receiver = clientFeign.getClientByIdClient(post.getReceiverId());
 
-        String clientJson = clientFeign.getClientById(clientId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        ClientResponse client = objectMapper.readValue(clientJson, ClientResponse.class);
-
-        /*
-        String recipientId = post.getClientId();
-
-        String recipientJson = clientFeign.getClientById(recipientId);
-        ClientResponse recipient = objectMapper.readValue(recipientJson, ClientResponse.class);
-
-         */
-
-
-
-        PostResponse postResponse = postFeign.getPostByIdPostResponse(postId);
-        //postResponse.setClient(client);
-        //postResponse.setReceiver(recipient);
-
+        PostResponse postResponse = new PostResponse(postId, client, receiver,post.getPostItem(),post.getStatus());
         return postResponse;
 
 
 
-
-
-
     }
+
 
 
 

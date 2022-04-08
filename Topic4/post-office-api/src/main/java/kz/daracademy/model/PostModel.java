@@ -13,7 +13,7 @@ public class PostModel {
 
     private String postId;
     private String clientId;
-    private String postRecipientId;
+    private String receiverId;
     private String postItem;
     private String status;
 

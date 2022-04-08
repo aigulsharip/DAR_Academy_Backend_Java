@@ -14,7 +14,6 @@ public interface PostFeign {
     @GetMapping("/post/check")
     String checkPostApi();
 
-
     @GetMapping("/post/all")
     List<PostModel> getAllPosts();
 

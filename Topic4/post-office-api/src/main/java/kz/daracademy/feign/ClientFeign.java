@@ -23,8 +23,10 @@ public interface ClientFeign {
     @GetMapping("/client/{clientId}")
     String getClientById(@PathVariable String clientId);
 
+
+
     @GetMapping("/client/{clientId}")
-    ClientDTO getClientByIdClient(@PathVariable String clientId);
+    ClientResponse getClientByIdClient(@PathVariable String clientId);
 
 
 
