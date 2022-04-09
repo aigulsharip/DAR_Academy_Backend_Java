@@ -57,8 +57,6 @@ public class PostOfficeController {
         return clientFeign.getAllClients();
     }
 
-
-
     @GetMapping("/client/post/{postId}")
     public ClientResponse getClientByIdTest(@PathVariable String postId) {
         PostModel post = postFeign.getPostById(postId);
@@ -68,9 +66,6 @@ public class PostOfficeController {
 
         return clientFeign.getClientById(clientId);
     }
-
-
-
 
 
     @GetMapping("/post/details/{postId}")
