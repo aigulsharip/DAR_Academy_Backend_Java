@@ -34,7 +34,7 @@ public class ClientController {
     }
 
     @GetMapping("/{clientId}")
-    public ClientModel getClientbyId (@PathVariable String clientId) {
+    public ClientModel getClientById (@PathVariable String clientId) {
         return clientService.getClientById(clientId);
     }
 

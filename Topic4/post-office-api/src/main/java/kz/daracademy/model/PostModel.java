@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class PostModel {
-
-    private String postId;
-    private String clientId;
-    private String receiverId;
-    private String postItem;
-    private String status;
-
+    String postId;
+    String clientId;
+    String receiverId;
+    String postItem;
+    String status;
 }

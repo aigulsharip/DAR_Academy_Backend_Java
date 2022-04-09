@@ -1,20 +1,12 @@
 package kz.daracademy.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.daracademy.dto.PostDTO;
-import kz.daracademy.model.ClientModel;
-import kz.daracademy.model.PostResponse;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.feign.PostFeign;
 import kz.daracademy.model.ClientResponse;
 import kz.daracademy.model.PostModel;
-import kz.daracademy.service.PostService;
+import kz.daracademy.model.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,21 +24,21 @@ public class PostOfficeController {
     @Autowired
     ClientFeign clientFeign;
 
-    @Autowired
-    PostService postService;
-
 
     @GetMapping("/check")
-    public String checkPostOffice() {
-        return "post-office-api is working";
+    public String check() {
+        return "post-office-api is working ";
     }
 
     @GetMapping("/post/check")
     public String checkPost() {
         return postFeign.checkPostApi();
     }
+
     @GetMapping("/client/check")
-    public String checkClient() {return clientFeign.checkClientApi();}
+    public String checkClient() {
+        return clientFeign.checkClientApi();
+    }
 
 
     @GetMapping("/post/all")
@@ -65,53 +57,35 @@ public class PostOfficeController {
         return clientFeign.getAllClients();
     }
 
-    @GetMapping("/client/{clientId}")
-    public ClientResponse getClientById(@PathVariable String clientId) {
+
+
+    @GetMapping("/client/post/{postId}")
+    public ClientResponse getClientByIdTest(@PathVariable String postId) {
+        PostModel post = postFeign.getPostById(postId);
+        System.out.println(post);
+        String clientId = post.getClientId();
+        System.out.println(clientId);
+
         return clientFeign.getClientById(clientId);
     }
 
-    @GetMapping(value = "/post/details")
-    public ResponseEntity<List<PostDTO>> getAllPostsDetails(){
-        return new ResponseEntity<>(postService.getAllPostsListDTO(), HttpStatus.OK);
-    }
 
 
-    @GetMapping(value = "/post/details/{postId}")
-    public PostResponse getPostDetailsById(@PathVariable String postId){
+
+
+    @GetMapping("/post/details/{postId}")
+    public PostResponse getPostDetails(@PathVariable String postId) {
         PostModel post = postFeign.getPostById(postId);
+        System.out.println(post);
+        //String clientId = post.getClientId();
+        //System.out.println(clientId);
         ClientResponse client = clientFeign.getClientById(post.getClientId());
         ClientResponse receiver = clientFeign.getClientById(post.getReceiverId());
 
-        PostResponse postResponse = new PostResponse(postId, client, receiver,post.getPostItem(),post.getStatus());
-        return postResponse;
 
+        System.out.println(client);
 
+        return new PostResponse(postId, client, receiver, post.getPostItem(), post.getStatus());
 
-    }
-
-    /*
-    // Implementation with ObjectMapper
-    @GetMapping("/client/all")
-    public List<ClientResponse> getAllClients() throws JsonProcessingException {
-        String jsonClients= clientFeign.getAllClientsString();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<ClientResponse> clients = objectMapper.readValue(jsonClients, new TypeReference<List<ClientResponse>>(){});
-        return clients;
-
-    }
-    @GetMapping("/client/{clientId}")
-    public ClientResponse getClientById(@PathVariable String clientId) throws JsonProcessingException {
-        String json = clientFeign.getClientByIdString(clientId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        ClientResponse client = objectMapper.readValue(json, ClientResponse.class);
-        return client;
-
-    }
-
-     */
-
-
-
+       }
 }

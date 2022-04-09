@@ -15,20 +15,18 @@ public class PostModel {
 
     @NotNull(message = "PostId must not be null")
     @Size(min = 2, max = 16, message = "PostId must be greater than 2 and less than 16")
-    private String postId;
+    String postId;
 
     @NotNull
-    private String clientId;
+    String clientId;
 
     @NotNull
-    private String receiverId;
+    String receiverId;
 
-    private String postItem;
+    String postItem;
 
-    private String status;
+    String status;
 
-    @Email
-    private String email;
 
 
 
