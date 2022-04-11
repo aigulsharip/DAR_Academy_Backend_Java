@@ -15,10 +15,10 @@ public class ClientServiceImpl implements ClientService{
 
 
     static {
-        ClientModel client1 = new ClientModel(UUID.randomUUID().toString(), "Mary", "Smith", "marysmith@gmail.com");
-        ClientModel client2 = new ClientModel(UUID.randomUUID().toString(), "Anny", "Block", "annyblock@gmail.com");
-        ClientModel client3 = new ClientModel(UUID.randomUUID().toString(), "Bruno", "Mars", "brunomars@gmail.com");
-        ClientModel client4 = new ClientModel(UUID.randomUUID().toString(), "Michael", "Thomson", "michaelthomson@gmail.com");
+        ClientModel client1 = new ClientModel("client1", "Mary", "Smith", "marysmith@gmail.com");
+        ClientModel client2 = new ClientModel("client2", "Anny", "Block", "annyblock@gmail.com");
+        ClientModel client3 = new ClientModel("client3", "Bruno", "Mars", "brunomars@gmail.com");
+        ClientModel client4 = new ClientModel("client4", "Michael", "Thomson", "michaelthomson@gmail.com");
 
         clientMap.put(client1.getClientId(), client1);
         clientMap.put(client2.getClientId(), client2);
@@ -28,9 +28,7 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public void createClient(ClientModel clientModel) {
-        clientModel.setClientId(UUID.randomUUID().toString());
         clientMap.put(clientModel.getClientId(), clientModel);
-
     }
 
     @Override
@@ -45,6 +43,7 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public void updateClientById(String clientId, ClientModel clientModel) {
+        clientModel.setClientId(clientId);
         clientMap.put(clientId, clientModel);
 
     }

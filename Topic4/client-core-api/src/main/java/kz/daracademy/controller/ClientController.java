@@ -22,7 +22,7 @@ public class ClientController {
         return "client-core-api is working";
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<String> createClient(@Valid @RequestBody ClientModel clientModel) {
         clientService.createClient(clientModel);
         return new ResponseEntity<String>("New Client successfully created", HttpStatus.OK);
@@ -38,19 +38,19 @@ public class ClientController {
         return clientService.getClientById(clientId);
     }
 
+
     @PutMapping("/{clientId}")
-    public ResponseEntity<String> updateClient (@PathVariable String clientId, @Valid @RequestBody ClientModel clientModel) {
+    public ResponseEntity<String> updateClientById(@PathVariable String clientId, @Valid @RequestBody ClientModel clientModel) {
         clientService.updateClientById(clientId, clientModel);
         return new ResponseEntity<String>("Client successfully updated", HttpStatus.OK);
-
     }
 
     @DeleteMapping("/{clientId}")
-    public ResponseEntity<String> deleteClient(@PathVariable String clientId) {
+    public ResponseEntity<String> deleteClientById(@PathVariable String clientId) {
         clientService.deleteClientById(clientId);
         return new ResponseEntity<String>("Client succesfully deleted", HttpStatus.OK);
-    }
 
+    }
 
 
 }

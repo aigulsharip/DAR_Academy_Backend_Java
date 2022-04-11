@@ -57,13 +57,8 @@ public class PostOfficeController {
         return clientFeign.getAllClients();
     }
 
-    @GetMapping("/client/post/{postId}")
-    public ClientResponse getClientByIdTest(@PathVariable String postId) {
-        PostModel post = postFeign.getPostById(postId);
-        System.out.println(post);
-        String clientId = post.getClientId();
-        System.out.println(clientId);
-
+    @GetMapping("/client/{clientId}")
+    public ClientResponse getClientById(@PathVariable String clientId) {
         return clientFeign.getClientById(clientId);
     }
 
@@ -71,13 +66,13 @@ public class PostOfficeController {
     @GetMapping("/post/details/{postId}")
     public PostResponse getPostDetails(@PathVariable String postId) {
         PostModel post = postFeign.getPostById(postId);
-        //System.out.println(post);
-        //String clientId = post.getClientId();
-        //System.out.println(clientId);
+        System.out.println(post);
+        String clientId = post.getClientId();
+        System.out.println(clientId);
         ClientResponse client = clientFeign.getClientById(post.getClientId());
         ClientResponse receiver = clientFeign.getClientById(post.getReceiverId());
 
-        //System.out.println(client);
+        System.out.println(client);
 
         return new PostResponse(postId, client, receiver, post.getPostItem(), post.getStatus());
 
