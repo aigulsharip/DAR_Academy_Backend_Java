@@ -1,18 +1,19 @@
 package kz.daracademy.service;
 
-import kz.daracademy.model.ClientModel;
-import java.util.List;
+import kz.daracademy.model.ClientRequest;
+import kz.daracademy.model.ClientResponse;
 
+import java.util.List;
 
 public interface ClientService {
 
-    void createClient(ClientModel clientModel);
+    ClientResponse createClient(ClientRequest clientRequest);
 
-    List<ClientModel> getAllClients();
+    ClientResponse updateClient(ClientRequest clientRequest);
 
-    ClientModel getClientById(String clientId);
+    ClientResponse getClientById(String clientId);
 
-    void updateClientById(String clientId, ClientModel clientModel);
+    List<ClientResponse> getAllClients();
 
     void deleteClientById(String clientId);
 
