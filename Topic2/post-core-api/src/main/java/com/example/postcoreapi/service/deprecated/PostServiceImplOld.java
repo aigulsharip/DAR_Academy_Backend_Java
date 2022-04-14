@@ -1,4 +1,4 @@
-package com.example.postcoreapi.service;
+package com.example.postcoreapi.service.deprecated;
 
 import com.example.postcoreapi.model.PostModel;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PostServiceImpl implements PostService {
+public class PostServiceImplOld implements PostServiceOld {
 
     public static final HashMap<String, PostModel> postsMap = new HashMap<>();
 

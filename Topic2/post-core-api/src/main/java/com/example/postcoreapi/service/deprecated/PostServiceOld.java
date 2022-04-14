@@ -1,10 +1,10 @@
-package com.example.postcoreapi.service;
+package com.example.postcoreapi.service.deprecated;
 
 import com.example.postcoreapi.model.PostModel;
 
 import java.util.List;
 
-public interface PostService {
+public interface PostServiceOld {
 
     void createPost(PostModel postModel);
 
