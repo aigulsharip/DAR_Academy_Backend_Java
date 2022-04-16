@@ -1,4 +1,4 @@
-package com.example.postcoreapi.service.post;
+package com.example.postcoreapi.service;
 
 import com.example.postcoreapi.model.PostRequest;
 import com.example.postcoreapi.model.PostResponse;

@@ -2,7 +2,7 @@ package com.example.postcoreapi.controller;
 
 import com.example.postcoreapi.model.PostRequest;
 import com.example.postcoreapi.model.PostResponse;
-import com.example.postcoreapi.service.post.PostService;
+import com.example.postcoreapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class PostController {
     }
 
     @PutMapping
-    public PostResponse updatePost(@RequestBody PostRequest postRequest, @RequestParam String postId) {
+    public PostResponse updatePost(@RequestBody PostRequest postRequest, @RequestParam String postId ) {
         postRequest.setPostId(postId);
         return postService.updatePost(postRequest);
     }
