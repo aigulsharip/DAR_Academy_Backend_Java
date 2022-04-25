@@ -5,7 +5,7 @@ import kz.daracademy.model.PaymentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public interface PaymentService {
     PaymentResponse createPayment(PaymentRequest paymentRequest);
@@ -13,8 +13,7 @@ public interface PaymentService {
     PaymentResponse updatePayment(PaymentRequest paymentRequest);
 
     PaymentResponse getPaymentByPaymentId(String paymentId);
-
-    List<PaymentResponse> getAllPayments();
+    Page<PaymentResponse> getAllPayments(Pageable pageable);
 
     Page<PaymentResponse> getPaymentByClientId(String clientId, Pageable pageable);
 

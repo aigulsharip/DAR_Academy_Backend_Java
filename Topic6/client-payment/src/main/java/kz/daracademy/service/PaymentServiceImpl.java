@@ -11,9 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -62,8 +61,8 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public List<PaymentResponse> getAllPayments() {
-        return paymentRepository.getPaymentEntitiesBy().stream().map(post -> modelMapper.map(post, PaymentResponse.class)).collect(Collectors.toList());
+    public Page<PaymentResponse> getAllPayments(Pageable pageable) {
+        return paymentRepository.getPaymentEntitiesBy(pageable).map(payment -> modelMapper.map(payment, PaymentResponse.class));
 
     }
 

@@ -38,8 +38,8 @@ public class PaymentController {
 
 
     @GetMapping("/all")
-    public List<PaymentResponse> getAllPayments() {
-        return paymentService.getAllPayments();
+    public Page<PaymentResponse> getAllPayments(Pageable pageable) {
+        return paymentService.getAllPayments(pageable);
     }
 
     @GetMapping()
