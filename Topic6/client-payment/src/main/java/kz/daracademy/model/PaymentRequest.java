@@ -17,7 +17,7 @@ public class PaymentRequest {
 
     private String clientId;
 
-    private String postId;
+    private String paymentType;
 
     private Integer amount;
 

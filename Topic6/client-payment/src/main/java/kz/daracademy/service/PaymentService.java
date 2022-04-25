@@ -15,9 +15,13 @@ public interface PaymentService {
     PaymentResponse getPaymentByPaymentId(String paymentId);
     Page<PaymentResponse> getAllPayments(Pageable pageable);
 
+    //Page<PaymentResponse> getAllPaymentsSortedByPrice(Pageable pageable);
+
+
+
     Page<PaymentResponse> getPaymentByClientId(String clientId, Pageable pageable);
 
-    Page<PaymentResponse> getPaymentByPostId(String postId, Pageable pageable);
+    Page<PaymentResponse> getPaymentByPaymentType(String paymentType, Pageable pageable);
 
     void deletePaymentByPaymentId(String paymentId);
 

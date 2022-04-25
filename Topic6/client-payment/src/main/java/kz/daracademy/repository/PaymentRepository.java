@@ -12,11 +12,14 @@ public interface PaymentRepository extends ElasticsearchRepository<PaymentEntity
 
     Page<PaymentEntity> getPaymentEntitiesBy(Pageable pageable);
 
+    //Page<Product> allProductsSortedByName = productRepository.findAll(Sort.by("name"));
+
+
     PaymentEntity getPaymentEntityByPaymentId(String paymentId);
 
     Page<PaymentEntity> getPaymentEntityByClientId(String clientId, Pageable pageable);
 
-    Page<PaymentEntity> getPaymentEntityByPostId(String postId, Pageable pageable);
+    Page<PaymentEntity> getPaymentEntityByPaymentType(String paymentType, Pageable pageable);
 
     void deletePaymentEntityByPaymentId(String paymentId);
 }

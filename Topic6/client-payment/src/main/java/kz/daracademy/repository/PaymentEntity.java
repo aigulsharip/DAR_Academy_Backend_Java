@@ -24,8 +24,8 @@ public class PaymentEntity {
     @Field(type = FieldType.Keyword)
     private String clientId;
 
-    @Field(type = FieldType.Keyword)
-    private String postId;
+    @Field(type = FieldType.Text)
+    private String paymentType;
 
     @Field(type = FieldType.Integer)
     private Integer amount;

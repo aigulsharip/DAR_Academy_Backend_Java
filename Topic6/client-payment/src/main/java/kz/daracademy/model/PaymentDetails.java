@@ -5,21 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentResponse {
+@Data
+public class PaymentDetails {
 
     private String paymentId;
 
-    private String clientId;
+    private ClientResponse client;
 
-    private String  paymentType;
+    private String paymentType;
 
     private Integer amount;
 
     private LocalDate paymentDate;
+
+
 
 }
