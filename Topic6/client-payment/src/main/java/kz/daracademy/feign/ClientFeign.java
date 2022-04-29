@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ClientFeign {
 
     @GetMapping("/client/")
-    ClientResponse getClientById (@RequestParam String clientId);
+    ClientResponse getClientById(@RequestParam String clientId);
 
 
 }

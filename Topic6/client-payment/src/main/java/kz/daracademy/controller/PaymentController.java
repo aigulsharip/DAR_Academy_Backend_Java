@@ -70,7 +70,7 @@ public class PaymentController {
         PaymentResponse payment = paymentService.getPaymentByPaymentId(paymentId);
         ClientResponse client = clientFeign.getClientById(payment.getClientId());
         return new PaymentDetails(paymentId, client, payment.getPaymentType(), payment.getAmount(), payment.getPaymentDate());
-
     }
+
 
 }

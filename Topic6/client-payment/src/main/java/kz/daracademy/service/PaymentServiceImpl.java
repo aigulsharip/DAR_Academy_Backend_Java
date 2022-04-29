@@ -9,14 +9,12 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
-public class PaymentServiceImpl implements PaymentService{
+public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -34,7 +32,7 @@ public class PaymentServiceImpl implements PaymentService{
         PaymentEntity paymentEntity = modelMapper.map(paymentRequest, PaymentEntity.class);
 
         paymentEntity = paymentRepository.save(paymentEntity);
-        return modelMapper.map(paymentEntity,PaymentResponse.class);
+        return modelMapper.map(paymentEntity, PaymentResponse.class);
     }
 
     @Override
@@ -47,17 +45,16 @@ public class PaymentServiceImpl implements PaymentService{
 
         paymentEntity = paymentRepository.save(paymentEntity);
 
-        return modelMapper.map(paymentEntity,PaymentResponse.class);
+        return modelMapper.map(paymentEntity, PaymentResponse.class);
 
     }
-
 
 
     @Override
     public PaymentResponse getPaymentByPaymentId(String paymentId) {
         PaymentEntity paymentEntity = paymentRepository.getPaymentEntityByPaymentId(paymentId);
 
-        return modelMapper.map(paymentEntity,PaymentResponse.class);
+        return modelMapper.map(paymentEntity, PaymentResponse.class);
 
     }
 
@@ -70,12 +67,12 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     public Page<PaymentResponse> getPaymentByClientId(String clientId, Pageable pageable) {
-        return paymentRepository.getPaymentEntityByClientId(clientId,pageable).map(payment -> modelMapper.map(payment, PaymentResponse.class));
+        return paymentRepository.getPaymentEntityByClientId(clientId, pageable).map(payment -> modelMapper.map(payment, PaymentResponse.class));
     }
 
     @Override
     public Page<PaymentResponse> getPaymentByPaymentType(String paymentType, Pageable pageable) {
-        return paymentRepository.getPaymentEntityByPaymentType(paymentType,pageable).map(payment -> modelMapper.map(payment, PaymentResponse.class));
+        return paymentRepository.getPaymentEntityByPaymentType(paymentType, pageable).map(payment -> modelMapper.map(payment, PaymentResponse.class));
 
     }
 
