@@ -74,7 +74,7 @@ public class PaymentController {
         Page<PaymentResponse> payments = paymentService.getPaymentByClientId(clientId, pageable);
         ClientResponse client = clientFeign.getClientById(clientId);
 
-        Integer sum = 0;
+        int sum = 0;
         int numberOfPayment= 0;
         for (PaymentResponse pay: payments) {
             sum += pay.getAmount();
