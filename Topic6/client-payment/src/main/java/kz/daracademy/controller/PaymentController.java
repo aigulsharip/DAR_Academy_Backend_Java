@@ -1,10 +1,7 @@
 package kz.daracademy.controller;
 
 import kz.daracademy.feign.ClientFeign;
-import kz.daracademy.model.ClientResponse;
-import kz.daracademy.model.PaymentDetails;
-import kz.daracademy.model.PaymentRequest;
-import kz.daracademy.model.PaymentResponse;
+import kz.daracademy.model.*;
 import kz.daracademy.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -71,6 +68,26 @@ public class PaymentController {
         ClientResponse client = clientFeign.getClientById(payment.getClientId());
         return new PaymentDetails(paymentId, client, payment.getPaymentType(), payment.getAmount(), payment.getPaymentDate());
     }
+
+    @GetMapping("/totalPayments")
+    public ClientTotal getTotalPaymentsByClientId(@RequestParam String clientId, Pageable pageable) {
+        Page<PaymentResponse> payments = paymentService.getPaymentByClientId(clientId, pageable);
+        ClientResponse client = clientFeign.getClientById(clientId);
+
+        Integer sum = 0;
+        int numberOfPayment= 0;
+        for (PaymentResponse pay: payments) {
+            sum += pay.getAmount();
+            numberOfPayment++;
+        }
+
+        return new ClientTotal(clientId, client, sum, numberOfPayment);
+
+    }
+
+
+
+
 
 
 }
