@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
@@ -70,19 +73,19 @@ public class PaymentController {
     }
 
     @GetMapping("/totalPayments")
-    public ClientTotal getTotalPaymentsByClientId(@RequestParam String clientId, Pageable pageable) {
-        Page<PaymentResponse> payments = paymentService.getPaymentByClientId(clientId, pageable);
+    public ClientTotal getTotal (@RequestParam String clientId) {
+        List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
         ClientResponse client = clientFeign.getClientById(clientId);
-
+        HashMap<String, Integer> allPaymentsMap = new HashMap<>();
         int sum = 0;
-        int numberOfPayment= 0;
-        for (PaymentResponse pay: payments) {
-            sum += pay.getAmount();
-            numberOfPayment++;
+        int numberOfPayments = 0;
+        for (PaymentResponse payment: allPayments) {
+            if (payment.getClientId().equals(clientId) ) {
+                sum += payment.getAmount();
+                numberOfPayments++;
+            }
         }
-
-        return new ClientTotal(clientId, client, sum, numberOfPayment);
-
+        return new ClientTotal(clientId, client, sum, numberOfPayments);
     }
 
 
