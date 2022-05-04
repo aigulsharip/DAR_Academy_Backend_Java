@@ -1,4 +1,4 @@
-package kz.daracademy.service;
+package kz.daracademy.service.payment;
 
 import kz.daracademy.model.PaymentRequest;
 import kz.daracademy.model.PaymentResponse;

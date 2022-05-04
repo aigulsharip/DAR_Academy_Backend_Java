@@ -1,8 +1,13 @@
 package kz.daracademy.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.model.*;
-import kz.daracademy.service.PaymentService;
+import kz.daracademy.service.message.SendService;
+import kz.daracademy.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +26,16 @@ public class PaymentController {
     @Autowired
     private ClientFeign clientFeign;
 
+    @Autowired
+    private SendService sendService;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+
 
     @GetMapping("/check")
     public String check() {
-        return "client-payment-api is working at the port";
+        return "client-payment-api is working ";
     }
 
 
@@ -87,6 +98,18 @@ public class PaymentController {
         }
         return new ClientTotal(clientId, client, sum, numberOfPayments);
     }
+
+
+    @PostMapping("/send")
+    public PaymentResponse sendPaymentToKafka(@RequestBody PaymentRequest paymentRequest) throws JsonProcessingException {
+        PaymentResponse paymentResponse = paymentService.createPayment(paymentRequest);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        sendService.send(objectMapper.writeValueAsString(paymentResponse));
+        return paymentResponse;
+    }
+
+
 
 
 
