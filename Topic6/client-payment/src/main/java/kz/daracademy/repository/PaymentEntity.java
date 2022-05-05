@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -33,11 +32,6 @@ public class PaymentEntity {
 
     @Field(type = FieldType.Date)
     private LocalDate paymentDate;
-
-
-
-
-
 
 
 }

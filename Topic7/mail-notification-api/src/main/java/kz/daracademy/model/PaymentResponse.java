@@ -15,7 +15,7 @@ public class PaymentResponse {
 
     private String clientId;
 
-    private String  paymentType;
+    private String paymentType;
 
     private Integer amount;
 

@@ -16,7 +16,7 @@ public interface PaymentService {
 
     Page<PaymentResponse> getAllPayments(Pageable pageable);
 
-    List<PaymentResponse> getAllPaymentsList ();
+    List<PaymentResponse> getAllPaymentsList();
 
     Page<PaymentResponse> getPaymentByClientId(String clientId, Pageable pageable);
 

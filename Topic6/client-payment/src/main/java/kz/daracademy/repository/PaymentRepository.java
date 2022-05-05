@@ -11,9 +11,8 @@ import java.util.List;
 public interface PaymentRepository extends ElasticsearchRepository<PaymentEntity, String> {
 
     Page<PaymentEntity> getPaymentEntitiesBy(Pageable pageable);
-    List<PaymentEntity> getPaymentEntitiesBy();
 
-    //Page<Product> allProductsSortedByName = productRepository.findAll(Sort.by("name"));
+    List<PaymentEntity> getPaymentEntitiesBy();
 
 
     PaymentEntity getPaymentEntityByPaymentId(String paymentId);

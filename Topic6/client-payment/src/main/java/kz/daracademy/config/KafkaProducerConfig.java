@@ -34,7 +34,7 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
-        KafkaTemplate<String, String> template =  new KafkaTemplate<>(producerFactory());
+        KafkaTemplate<String, String> template = new KafkaTemplate<>(producerFactory());
         template.setMessageConverter(new StringJsonMessageConverter());
         return template;
     }

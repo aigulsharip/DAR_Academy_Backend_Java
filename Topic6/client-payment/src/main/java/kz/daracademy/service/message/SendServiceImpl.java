@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class SendServiceImpl implements SendService{
+public class SendServiceImpl implements SendService {
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;

@@ -2,8 +2,6 @@ package kz.daracademy.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kz.daracademy.feign.ClientFeign;
 import kz.daracademy.model.*;
 import kz.daracademy.service.message.SendService;
@@ -21,18 +19,13 @@ import java.util.UUID;
 @RequestMapping("/payment")
 public class PaymentController {
 
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private PaymentService paymentService;
-
     @Autowired
     private ClientFeign clientFeign;
-
     @Autowired
     private SendService sendService;
-
-    ObjectMapper objectMapper = new ObjectMapper();
-
-
 
     @GetMapping("/check")
     public String check() {
@@ -85,14 +78,14 @@ public class PaymentController {
     }
 
     @GetMapping("/totalPayments")
-    public ClientTotal getTotal (@RequestParam String clientId) {
+    public ClientTotal getTotal(@RequestParam String clientId) {
         List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
         ClientResponse client = clientFeign.getClientById(clientId);
         HashMap<String, Integer> allPaymentsMap = new HashMap<>();
         int sum = 0;
         int numberOfPayments = 0;
-        for (PaymentResponse payment: allPayments) {
-            if (payment.getClientId().equals(clientId) ) {
+        for (PaymentResponse payment : allPayments) {
+            if (payment.getClientId().equals(clientId)) {
                 sum += payment.getAmount();
                 numberOfPayments++;
             }
@@ -100,23 +93,15 @@ public class PaymentController {
         return new ClientTotal(clientId, client, sum, numberOfPayments);
     }
 
-
-    @PostMapping("/send-payment")
-    public PaymentResponse sendPaymentToKafka(@RequestBody PaymentRequest paymentRequest) throws JsonProcessingException {
-        PaymentResponse paymentResponse = paymentService.createPayment(paymentRequest);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        sendService.send(objectMapper.writeValueAsString(paymentResponse));
-        return paymentResponse;
-    }
-
     @GetMapping("/send-email")
     public ClientEmailInfo sendClientData(@RequestParam String clientId) throws JsonProcessingException {
         List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
         ClientResponse client = clientFeign.getClientById(clientId);
+        HashMap<String, Integer> clientPayments = new HashMap<>();
         int sum = 0;
-        for (PaymentResponse payment: allPayments) {
-            if (payment.getClientId().equals(clientId) ) {
+        for (PaymentResponse payment : allPayments) {
+            if (payment.getClientId().equals(clientId)) {
+                clientPayments.put(payment.getPaymentType(), payment.getAmount());
                 sum += payment.getAmount();
             }
         }
@@ -125,22 +110,12 @@ public class PaymentController {
         clientEmailInfo.setClientName(client.getName() + " " + client.getSurname());
         clientEmailInfo.setClientEmail(client.getEmail());
         clientEmailInfo.setTotalPaymentsAmount(sum);
+        clientEmailInfo.setClientPayments(clientPayments);
         sendService.send(objectMapper.writeValueAsString(clientEmailInfo));
 
         return clientEmailInfo;
 
-
-
     }
-
-
-
-
-
-
-
-
-
 
 
 }
