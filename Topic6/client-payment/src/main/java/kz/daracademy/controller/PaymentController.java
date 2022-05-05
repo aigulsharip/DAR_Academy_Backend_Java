@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/payment")
@@ -100,7 +101,7 @@ public class PaymentController {
     }
 
 
-    @PostMapping("/send")
+    @PostMapping("/send-payment")
     public PaymentResponse sendPaymentToKafka(@RequestBody PaymentRequest paymentRequest) throws JsonProcessingException {
         PaymentResponse paymentResponse = paymentService.createPayment(paymentRequest);
         objectMapper.registerModule(new JavaTimeModule());
@@ -108,6 +109,32 @@ public class PaymentController {
         sendService.send(objectMapper.writeValueAsString(paymentResponse));
         return paymentResponse;
     }
+
+    @GetMapping("/send-email")
+    public ClientEmailInfo sendClientData(@RequestParam String clientId) throws JsonProcessingException {
+        List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
+        ClientResponse client = clientFeign.getClientById(clientId);
+        int sum = 0;
+        for (PaymentResponse payment: allPayments) {
+            if (payment.getClientId().equals(clientId) ) {
+                sum += payment.getAmount();
+            }
+        }
+        ClientEmailInfo clientEmailInfo = new ClientEmailInfo();
+        clientEmailInfo.setTotalPaymentId(UUID.randomUUID().toString());
+        clientEmailInfo.setClientName(client.getName() + " " + client.getSurname());
+        clientEmailInfo.setClientEmail(client.getEmail());
+        clientEmailInfo.setTotalPaymentsAmount(sum);
+        sendService.send(objectMapper.writeValueAsString(clientEmailInfo));
+
+        return clientEmailInfo;
+
+
+
+    }
+
+
+
 
 
 

@@ -4,13 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailMessage {
-    private String to;
-    private String subject;
-    private String message;
+@Data
+
+public class ClientEmailInfo {
+
+    private String totalPaymentId;
+
     private String clientName;
+
+    private String clientEmail;
+
+    public Integer totalPaymentsAmount;
+
+
+
 
 }
