@@ -1,10 +1,7 @@
 package kz.daracademy.service.payment;
 
 import kz.daracademy.feign.ClientFeign;
-import kz.daracademy.model.ClientEmailInfo;
-import kz.daracademy.model.ClientResponse;
-import kz.daracademy.model.PaymentRequest;
-import kz.daracademy.model.PaymentResponse;
+import kz.daracademy.model.*;
 import kz.daracademy.repository.PaymentEntity;
 import kz.daracademy.repository.PaymentRepository;
 import org.modelmapper.ModelMapper;
@@ -116,5 +113,21 @@ public class PaymentServiceImpl implements PaymentService {
         clientEmailInfo.setTotalPaymentsAmount(sum);
         clientEmailInfo.setClientPayments(clientPayments);
         return clientEmailInfo;
+    }
+
+    @Override
+    public ClientTotal getTotalById(String clientId) {
+        List<PaymentResponse> allPayments = getAllPaymentsList();
+        ClientResponse client = clientFeign.getClientById(clientId);
+        int sum = 0;
+        int numberOfPayments = 0;
+        for (PaymentResponse payment : allPayments) {
+            if (payment.getClientId().equals(clientId)) {
+                sum += payment.getAmount();
+                numberOfPayments++;
+            }
+        }
+        return new ClientTotal(clientId, client, sum, numberOfPayments);
+
     }
 }

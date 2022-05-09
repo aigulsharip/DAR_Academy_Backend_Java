@@ -81,18 +81,8 @@ public class PaymentController {
 
     @GetMapping("/totalPayments")
     public ClientTotal getTotal(@RequestParam String clientId) {
-        List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
-        ClientResponse client = clientFeign.getClientById(clientId);
-        HashMap<String, Integer> allPaymentsMap = new HashMap<>();
-        int sum = 0;
-        int numberOfPayments = 0;
-        for (PaymentResponse payment : allPayments) {
-            if (payment.getClientId().equals(clientId)) {
-                sum += payment.getAmount();
-                numberOfPayments++;
-            }
-        }
-        return new ClientTotal(clientId, client, sum, numberOfPayments);
+        ClientTotal clientTotal = paymentService.getTotalById(clientId);
+        return clientTotal;
     }
 
     @PostMapping("/send-email")

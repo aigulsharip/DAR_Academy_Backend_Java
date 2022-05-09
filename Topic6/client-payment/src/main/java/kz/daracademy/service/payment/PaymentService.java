@@ -1,6 +1,7 @@
 package kz.daracademy.service.payment;
 
 import kz.daracademy.model.ClientEmailInfo;
+import kz.daracademy.model.ClientTotal;
 import kz.daracademy.model.PaymentRequest;
 import kz.daracademy.model.PaymentResponse;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,9 @@ public interface PaymentService {
     void deletePaymentByPaymentId(String paymentId);
 
     ClientEmailInfo prepareEmailData (String clientId);
+
+    ClientTotal getTotalById(String clientId);
+
 
 
 }
