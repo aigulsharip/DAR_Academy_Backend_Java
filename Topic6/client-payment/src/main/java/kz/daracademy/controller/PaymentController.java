@@ -9,6 +9,8 @@ import kz.daracademy.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -93,28 +95,11 @@ public class PaymentController {
         return new ClientTotal(clientId, client, sum, numberOfPayments);
     }
 
-    @GetMapping("/send-email")
-    public ClientEmailInfo sendClientData(@RequestParam String clientId) throws JsonProcessingException {
-        List<PaymentResponse> allPayments = paymentService.getAllPaymentsList();
-        ClientResponse client = clientFeign.getClientById(clientId);
-        HashMap<String, Integer> clientPayments = new HashMap<>();
-        int sum = 0;
-        for (PaymentResponse payment : allPayments) {
-            if (payment.getClientId().equals(clientId)) {
-                clientPayments.put(payment.getPaymentType(), payment.getAmount());
-                sum += payment.getAmount();
-            }
-        }
-        ClientEmailInfo clientEmailInfo = new ClientEmailInfo();
-        clientEmailInfo.setTotalPaymentId(UUID.randomUUID().toString());
-        clientEmailInfo.setClientName(client.getName() + " " + client.getSurname());
-        clientEmailInfo.setClientEmail(client.getEmail());
-        clientEmailInfo.setTotalPaymentsAmount(sum);
-        clientEmailInfo.setClientPayments(clientPayments);
+    @PostMapping("/send-email")
+    public ResponseEntity<String> sendClientData(@RequestParam String clientId) throws JsonProcessingException {
+        ClientEmailInfo clientEmailInfo = paymentService.prepareEmailData(clientId);
         sendService.send(objectMapper.writeValueAsString(clientEmailInfo));
-
-        return clientEmailInfo;
-
+        return new ResponseEntity<>("Mail Sent Succesfully", HttpStatus.OK);
     }
 
 

@@ -23,32 +23,12 @@ public class ConsumeServiceImpl implements ConsumeService {
     @KafkaListener(id = "${spring.kafka.consumer.group-id}", topics = "${spring.kafka.topic.in}",
             containerFactory = "singleFactory")
     public void consumeEmailInfo(ClientEmailInfo emailInfo) {
-        EmailMessage emailMessage = new EmailMessage();
-        emailMessage.setTo(emailInfo.getClientEmail());
-        emailMessage.setClientName(emailInfo.getClientName());
-        emailMessage.setSubject("Payment receipt #" + emailInfo.getTotalPaymentId());
-
-        String message = " Customer " + emailInfo.getClientName() + " has successfully paid for receipt #" + emailInfo.getTotalPaymentId() + ". \n";
-        message += " Paid services: \n";
-
-        HashMap<String, Integer> clientsPayments = emailInfo.getClientPayments();
-
-        for (Map.Entry<String, Integer> payment : clientsPayments.entrySet()) {
-            message += "    " + payment.getKey() + " - " + payment.getValue() + " tenge \n";
-        }
-
-        message += " The total amount of payment was " + emailInfo.getTotalPaymentsAmount() + " tenge.";
-
-
-        emailMessage.setMessage(message);
-
-        log.info("Message: {} successfully consumed", emailInfo);
-
+        EmailMessage emailMessage = emailSenderService.renderEmail(emailInfo);
         emailSenderService.sendEmail(emailMessage.getTo(), emailMessage.getSubject(), emailMessage.getMessage());
-
-
-
+        log.info("Message: {} successfully consumed", emailInfo);
     }
+
+
 
 
 }

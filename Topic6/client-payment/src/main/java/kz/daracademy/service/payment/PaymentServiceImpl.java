@@ -1,5 +1,8 @@
 package kz.daracademy.service.payment;
 
+import kz.daracademy.feign.ClientFeign;
+import kz.daracademy.model.ClientEmailInfo;
+import kz.daracademy.model.ClientResponse;
 import kz.daracademy.model.PaymentRequest;
 import kz.daracademy.model.PaymentResponse;
 import kz.daracademy.repository.PaymentEntity;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,6 +24,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private ClientFeign clientFeign;
+
 
     static ModelMapper modelMapper = new ModelMapper();
 
@@ -87,5 +95,26 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void deletePaymentByPaymentId(String paymentId) {
         paymentRepository.deletePaymentEntityByPaymentId(paymentId);
+    }
+
+    @Override
+    public ClientEmailInfo prepareEmailData(String clientId) {
+        List<PaymentResponse> allPayments = getAllPaymentsList();
+        ClientResponse client = clientFeign.getClientById(clientId);
+        HashMap<String, Integer> clientPayments = new HashMap<>();
+        int sum = 0;
+        for (PaymentResponse payment : allPayments) {
+            if (payment.getClientId().equals(clientId)) {
+                clientPayments.put(payment.getPaymentType(), payment.getAmount());
+                sum += payment.getAmount();
+            }
+        }
+        ClientEmailInfo clientEmailInfo = new ClientEmailInfo();
+        clientEmailInfo.setTotalPaymentId(UUID.randomUUID().toString());
+        clientEmailInfo.setClientName(client.getName() + " " + client.getSurname());
+        clientEmailInfo.setClientEmail(client.getEmail());
+        clientEmailInfo.setTotalPaymentsAmount(sum);
+        clientEmailInfo.setClientPayments(clientPayments);
+        return clientEmailInfo;
     }
 }
