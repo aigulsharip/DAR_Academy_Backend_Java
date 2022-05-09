@@ -12,19 +12,6 @@ public class MailNotificationApiApplication {
         SpringApplication.run(MailNotificationApiApplication.class, args);
     }
 
-    /*
-    @Autowired
-    private EmailSenderService senderService;
-
-
-    @EventListener (ApplicationReadyEvent.class)
-    public void sendEmail () {
-        senderService.sendEmail("aigul.sharip@nu.edu.kz",
-                "This is Subject",
-                "This is body of email");
-    }
-
-     */
 
 
 
